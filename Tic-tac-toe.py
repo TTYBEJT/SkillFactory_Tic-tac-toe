@@ -1,5 +1,9 @@
-board = [[' ', '1', '2', '3'], ['1', '-', 'X', 'X'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
-player = "X"
+print("""Правила игры: Нужно собрать 3 знака в ряд (по горизонтали, вертикали или диагонали),
+при этом нужно помешать противнику сделать то же самое.
+Это игровое поле, игроки ходят по очереди, можно выбирать значение 1, 2 или 3 (строка или столбец).
+ Первый ходит игрок Х 
+ """)
+Play = True
 
 
 def print_board():
@@ -43,41 +47,60 @@ def Win():
         return False
 
 
-while True:
-
-    print_board()
-
-    print(f"Игрок {player} выбери ячейку (строка)")
-    row = input("Строка: ")
-    res = test(row)
-    if res:
-        continue
-
-    row = int(row)
-
-    print(f"Игрок {player} выбери ячейку (столбец)")
-    col = input("Столбец: ")
-    res = test(col)
-    if res:
-        continue
-
-    col = int(col)
-
-    if board[row][col] != '-':
-        print("Эта ячейка занята. Попробуй другую")
-        continue
-
-    board[row][col] = player
-
-    win = Win()
-    if win:
-        print_board()
-        print(f"Победил игрок {player}")
-        print("Игра окончена")
-        break
-
+def Yes_or_no():
+    print("Играем еще раз? ( Y (Да) или N (Нет) )")
+    Ans = input()
+    if Ans == "Y":
+        return True
+    elif Ans == "y":
+        return True
     else:
-        if player == "X":
-            player = "O"
+        return False
+
+
+def Game():
+    while True:
+        global player
+        print_board()
+
+        print(f"Игрок {player} выбери ячейку (строка)")
+        row = input("Строка: ")
+        res = test(row)
+        if res:
+            continue
+
+        row = int(row)
+
+        print(f"Игрок {player} выбери ячейку (столбец)")
+        col = input("Столбец: ")
+        res = test(col)
+        if res:
+            continue
+
+        col = int(col)
+
+        if board[row][col] != '-':
+            print("Эта ячейка занята. Попробуй другую")
+            continue
+
+        board[row][col] = player
+
+        win = Win()
+        if win:
+            print_board()
+            print(f"Победил игрок {player}")
+            print("Игра окончена")
+            break
+
         else:
-            player = "X"
+            if player == "X":
+                player = "O"
+            else:
+                player = "X"
+
+
+while Play:
+    board = [[' ', '1', '2', '3'], ['1', '-', 'O', 'O'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
+    player = "X"
+    Game()
+    Play = Yes_or_no()
